@@ -16,6 +16,7 @@ var express = require('express'),
 
 var app = module.exports = express();
 
+var devices = require('./routes/devices');
 
 /**
  * Configuration
@@ -62,6 +63,22 @@ app.get('/api/name', api.name);
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
 
+//Create a REST based Node/MongoDB backend
+//Read
+app.get('/devices', devices.findAll);
+
+//View one device
+app.get('/device/:id', devices.findById);
+
+//Add a new device
+app.post('/devices', devices.add);
+
+//Update a device
+app.put('/devices/:id', devices.update);
+
+
+//Delete a device
+app.delete('/deivces/:id', devices.delete);
 
 /**
  * Start Server
