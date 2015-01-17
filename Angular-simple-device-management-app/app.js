@@ -12,6 +12,7 @@ var express = require('express'),
   api = require('./routes/api'),
   http = require('http'),
   path = require('path'),
+  cors = require('cors');
   ejs = require('ejs');
 
 var app = module.exports = express();
@@ -33,6 +34,7 @@ app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(cors());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -1,7 +1,7 @@
 //create a module to support getting and managing the device list
 var deviceModule = angular.module('DeviceModule', []);
 
-deviceModule.factory('Devices', function(){
+deviceModule.factory('Devices', function($http, $q){
     var items = {};
 
     items.data = [
@@ -15,7 +15,23 @@ deviceModule.factory('Devices', function(){
         ];
 
     items.query = function(){
-        return items.data;
+        //异步控制
+       // var deferred = $q.defer();
+
+        var url = "http://localhost:3000/devices";
+        console.log(url);
+
+        $http.get(url).success(function(data, status){
+            console.log('Info: getting data from server: ' + data);
+           // deferred.resolve(data);
+            return data;
+        })
+            .error(function(data, status){
+                console.log('Err: getting data from server :' + status);
+              //  deferred.reject(data);
+            });
+
+       // return deferred.promise;
     }
 
     items.add = function(device){

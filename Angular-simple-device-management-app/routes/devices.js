@@ -9,7 +9,8 @@ var devices = [
 ];
 
 exports.findAll = function(req, res){
-    res.send(devices)
+    console.log('Info: findAll: Get Devices request recieved');
+    res.send(devices);
 };
 
 exports.findById = function(req, res){

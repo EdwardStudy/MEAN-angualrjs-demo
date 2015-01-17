@@ -11,7 +11,8 @@ function routeConfig($routeProvider){
     $routeProvider.
         when('/', {
             //controller: deviceListController,
-            templateUrl: 'listDevices.html'
+            templateUrl: 'listDevices.html',
+            controller: 'deviceListController'
         }).
         when('/add', {
             controller: addDeviceController,
