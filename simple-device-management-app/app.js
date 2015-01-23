@@ -59,7 +59,7 @@ app.get('/', routes.index);
 app.get('/devices', devices.findAll);
 
 // View one device
-app.get('/device/:id', devices.findById);
+app.get('/devices/:id', devices.findById);
 
 //add new device
 app.post('/devices', devices.add);

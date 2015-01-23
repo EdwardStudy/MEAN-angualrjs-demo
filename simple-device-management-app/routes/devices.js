@@ -9,17 +9,30 @@ var devices = [
 ];
 
 exports.findAll = function(req, res){
+    console.log('Info: findAll: GET Devices request recieved');
     res.send(devices)
 };
 
 exports.findById = function(req, res){
-    res.send(devices[req.params.id]);
+    console.log('Info: findById: GET: Id: ', req.params.id);
+
+    //find the device with id
+    var rid = req.params.id;
+    var device;
+    devices.forEach(function(item, i){
+        if(item.id == rid){
+            device = devices[i];
+        }
+    });
+
+    console.log('Info: findById: GET; device: ', device);
+    res.send(device);
 };
 
 exports.add = function(req, res){
     var dev = req.body;
+    console.log('Info: add: Post; device: ', dev);
     devices.push(dev);
-    console.log(devices);
     res.send({success: true});
 };
 
@@ -29,7 +42,7 @@ exports.delete = function(req, res){
         return item.id != id;
     });
 
-    console.log("Info: DELETE ", devices);
+    console.log("Info: delete: id: ", id);
     res.send({success: true});
 };
 
@@ -37,8 +50,9 @@ exports.update = function(req, res){
     //get the device
     var id = req.params.id;
     var dev = req.body;
+    console.log("Info: update: PUT: device:  ", devices, " Id: ", id);
     if(id != dev.id){
-        console.log("Error: id's do not match for update");
+        console.log("Error: update: id's do not match for update");
         res.send({success: false});
     }
 
@@ -47,8 +61,9 @@ exports.update = function(req, res){
         if(item.id == id){
             //update
             devices[i] = dev;
-            console.log("Info: update done", devices[i]);
+            console.log("Info: update: updating: ", devices[i]);
             res.send({success: true});
+            return;
         }
     });
     console.log("Error: devices iteration error");
