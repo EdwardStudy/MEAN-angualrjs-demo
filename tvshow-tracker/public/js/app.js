@@ -1,7 +1,7 @@
 'use strict';
 
 //Declare app level module which depends on filters, and services
-angular.module('app', ['deviceCtrl', 'devicesServices', 'ngRoute', 'ngResource'])
+angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
     .config(['$routeProvider',
         //setup mapping routes and templates
         function($routeProvider){
