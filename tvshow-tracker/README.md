@@ -1,0 +1,1 @@
+A demo for study based on this [blog](http://sahatyalkabov.com/create-a-tv-show-tracker-using-angularjs-nodejs-and-mongodb/)
