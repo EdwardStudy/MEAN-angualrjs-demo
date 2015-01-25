@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="MyApp">
 <head>
     <!-- enable HTML5 History API 没有# 干净的URL -->
     <base href="/">
@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ShowTrackr</title>
-    <link rel="icon" type="image/png" href="favicon.png"/>
+    <link rel="icon" type="image/png" href="img/favicon.png"/>
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<div class="navbar navbar-default navbar-static-top"
-     role="navigation" bs-navbar>
+<!-- AngularStrap Navbar the active class is applied automatically to <li> elements when you change routes. -->
+<div ng-controller="NavbarCtrl" class="navbar navbar-default navbar-static-top" role="navigation" bs-navbar>
     <div class="navbar-header">
         <a class="navbar-brand" href="/">
             <span class="glyphicon glyphicon-film"></span>
@@ -43,5 +43,20 @@
 <script src="lib/angular-cookies.js"></script>
 <script src="lib/moment.min.js"></script>
 <script src="js/app.js"></script>
+
+<script src="js/controllers/main.js"></script>
+<script src="js/services/show.js"></script>
+
+<script src="js/controllers/add.js"></script>
+<script src="js/controllers/detail.js"></script>
+<script src="js/services/subscription.js"></script>
+<script src="js/filters/fromNow.js"></script>
+
+<script src="js/directives/repeatPassword.js"></script>
+<script src="js/controllers/signup.js"></script>
+<script src="js/controllers/login.js"></script>
+<script src="js/services/auth.js"></script>
+<script src="js/controllers/navbar.js"></script>
+
 </body>
 </html>
