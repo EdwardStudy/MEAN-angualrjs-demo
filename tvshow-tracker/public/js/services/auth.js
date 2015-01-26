@@ -6,7 +6,7 @@ angular.module('MyApp')
 
             return {
                 login: function (user) {
-                    return $http.post('/api/login', user)
+                    return $http.post('/auth/login', user)
                         .success(function (data) {
                             $rootScope.currentUser = data;
                             $location.path('/');
@@ -30,7 +30,7 @@ angular.module('MyApp')
                         });
                 },
                 signup: function (user) {
-                    return $http.post('/api/signup', user)
+                    return $http.post('/auth/signup', user)
                         .success(function () {
                             $location.path('/login');
 
@@ -53,7 +53,7 @@ angular.module('MyApp')
                         });
                 },
                 logout: function () {
-                    return $http.get('/api/logout').success(function () {
+                    return $http.get('/auth/logout').success(function () {
                         $rootScope.currentUser = null;
                         $cookieStore.remove('user');
                         $alert({

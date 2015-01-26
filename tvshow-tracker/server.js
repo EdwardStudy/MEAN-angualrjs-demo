@@ -17,6 +17,10 @@ var express = require('express'),
     passport = require('passport'),
     session = require('express-session');
 
+//Need module
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 var app = module.exports = express();
 
 /**
@@ -32,6 +36,10 @@ var User = require('./app/models/user');
 //加载路径处理模块
 var shows = require('./routes/shows');
 var users = require('./routes/users');
+
+
+
+
 /**
  * Configuration
  */
@@ -83,6 +91,31 @@ if (env === 'production') {
     // TODO
 }
 
+//Passport
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    mongoose.model('User').findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
+    //can not use findOne maybe looping requires http://stackoverflow.com/questions/14307953/mongoose-typeerror-on-a-models-findone-method
+    mongoose.model('User').findOne({ email: email }, function(err, user) {
+        if (err) return done(err);
+        if (!user) return done(null, false);
+        user.comparePassword(password, function(err, isMatch) {
+            if (err) return done(err);
+            if (isMatch) return done(null, user);
+            return done(null, false);
+        });
+    });
+}));
+
 /**
  * Routes
  */
@@ -99,15 +132,15 @@ app.get('/api/shows/:id', shows.getShow);
 //Add a new show
 app.post('/api/shows', shows.addShow);
 
-//Auth
-app.post('/api/login', passport.authenticate('local'), function(req, res) {
+//User Auth
+app.post('/auth/login', passport.authenticate('local'), function(req, res) {
     res.cookie('user', JSON.stringify(req.user));
     res.send(req.user);
 })
 
-app.post('/api/signup', users.signup);
+app.post('/auth/signup', users.signup);
 
-app.get('/api/logout', users.logout);
+app.get('/auth/logout', users.logout);
 
 //subscription
 
@@ -131,3 +164,4 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) next();
     else res.send(401);
 }
+
