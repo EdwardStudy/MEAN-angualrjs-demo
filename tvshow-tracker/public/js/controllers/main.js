@@ -13,7 +13,7 @@ angular.module('MyApp')
 
         $scope.headingTitle = 'Top 10 Shows';
 
-        $scope.shows = Show.query().shows;
+        $scope.shows = Show.query();
 
 
         console.log('Test: Show Service: shows are ', $scope.shows);

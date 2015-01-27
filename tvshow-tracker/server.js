@@ -17,6 +17,8 @@ var express = require('express'),
     passport = require('passport'),
     session = require('express-session');
 
+var compress = require('compression');
+
 //Need module
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -46,8 +48,9 @@ var users = require('./routes/users');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
+app.use(compress());
 app.set('views', __dirname + '/public');
-app.use(express.static(path.normalize(__dirname + '/..') + '/public'));
+//app.use(express.static(path.normalize(__dirname + '/..') + '/public'));
 
 //不用template app.set('view engine', 'jade');
 //直接使用html文件
@@ -63,7 +66,8 @@ app.use(passport.session());
 
 
 app.use(methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));
+//Enable static assets
+app.use(express.static(path.join(__dirname, 'public') , { maxAge: 86400000 }));
 
 //Handle error
 app.use(function (err, req, res, next) {
@@ -132,6 +136,11 @@ app.get('/api/shows/:id', shows.getShow);
 //Add a new show
 app.post('/api/shows', shows.addShow);
 
+//subscription
+app.post('/api/subscribe', ensureAuthenticated, shows.subscribe);
+app.post('/api/unsubscribe', ensureAuthenticated, shows.unsubscribe);
+
+
 //User Auth
 app.post('/auth/login', passport.authenticate('local'), function(req, res) {
     res.cookie('user', JSON.stringify(req.user));
@@ -142,7 +151,7 @@ app.post('/auth/signup', users.signup);
 
 app.get('/auth/logout', users.logout);
 
-//subscription
+
 
 
 

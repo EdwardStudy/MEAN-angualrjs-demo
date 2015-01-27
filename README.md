@@ -1,1 +1,1 @@
-A demo for study angular of MEAN full stack framework
+A demo for study angular of MEAN full stack framework:
