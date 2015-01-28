@@ -1,0 +1,1 @@
+A demo for a device CRUD based on this [blog](http://sahatyalkabov.com/how-to-implement-password-reset-in-nodejs/)
