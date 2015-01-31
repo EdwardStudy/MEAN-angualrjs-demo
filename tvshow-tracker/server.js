@@ -30,7 +30,7 @@ var app = module.exports = express();
  *
  * */
 
-//顺序很重要，run mongoose
+//run mongoose
 var db = require('./app/models/mongodb');
 //注册Model
 var Show = require('./app/models/show');
@@ -107,18 +107,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
-    //can not use findOne maybe looping requires http://stackoverflow.com/questions/14307953/mongoose-typeerror-on-a-models-findone-method
-    mongoose.model('User').findOne({ email: email }, function(err, user) {
-        if (err) return done(err);
-        if (!user) return done(null, false);
-        user.comparePassword(password, function(err, isMatch) {
-            if (err) return done(err);
-            if (isMatch) return done(null, user);
-            return done(null, false);
-        });
-    });
-}));
+
 
 /**
  * Routes
@@ -138,6 +127,20 @@ app.post('/api/shows', shows.addShow);
 
 //subscription
 app.post('/api/subscribe', ensureAuthenticated, shows.subscribe);
+
+passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
+    //can not use findOne maybe looping requires http://stackoverflow.com/questions/14307953/mongoose-typeerror-on-a-models-findone-method
+    mongoose.model('User').findOne({ email: email }, function(err, user) {
+        if (err) return done(err);
+        if (!user) return done(null, false);
+        user.comparePassword(password, function(err, isMatch) {
+            if (err) return done(err);
+            if (isMatch) return done(null, user);
+            return done(null, false);
+        });
+    });
+}));
+
 app.post('/api/unsubscribe', ensureAuthenticated, shows.unsubscribe);
 
 
