@@ -57,13 +57,14 @@ app.use(express.static(path.join(__dirname, 'public')));
  * */
 app.get('/', function(req, res, next){
     res.render('index', {
-        title: 'Express',
+        title: 'Home',
         user: req.user
     });
 });
 
 app.get('/login', function(req, res, next){
     res.render('login', {
+        title: 'Login',
         user: req.user
     });
 });
@@ -84,6 +85,7 @@ app.post('/login', function(req, res, next) {
 
 app.get('/signup', function(req, res, next) {
     res.render('signup', {
+        title: 'Create Account',
         user: req.user
     });
 });
@@ -109,6 +111,7 @@ app.get('/logout', function(req, res, next){
 
 app.get('/forgot', function(req, res, next) {
     res.render('forgot', {
+        title: 'Forgot Password',
         user: req.user
     });
 });
@@ -168,17 +171,17 @@ app.post('/forgot', function(req, res, next) {
 
 app.get('/reset/:token', function(req, res) {
     User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-        console.log('user ', req.user);
+        console.log('user1 ', req.user);
         if (!user) {
             req.flash('error', 'Password reset token is invalid or has expired.');
             return res.redirect('/forgot');
         }
 
-        console.log('user ', user);
+        console.log('user2 ', user);
         res.render('reset', {
-            title: 'Password Reset'
+            title: 'Password Reset',
+            user: req.user
         });
-        console.log('Run 182');
     });
 });
 
