@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('angularRestfulAuth')
-    .controller('HomeCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'Main', function($rootScope, $scope, $location, $localStorage, Main) {
+    .controller('HomeCtrl', ['$rootScope', '$scope', '$location', '$localStorage', 'auth', function($rootScope, $scope, $location, $localStorage, Main) {
 
         $scope.signin = function() {
             var formData = {
@@ -11,17 +11,21 @@ angular.module('angularRestfulAuth')
                 password: $scope.password
             }
 
-            //Ajax request need to be replaced
-            Main.signin(formData, function(res) {
-                if (res.type == false) {
-                    alert(res.data)    
-                } else {
-                    $localStorage.token = res.data.token;
-                    window.location = "/";    
-                }
-            }, function() {
-                $rootScope.error = 'Failed to signin';
-            })
+            //$resource
+            auth
+
+
+//            //Ajax request need to be replaced
+//            Main.signin(formData, function(res) {
+//                if (res.type == false) {
+//                    alert(res.data)
+//                } else {
+//                    $localStorage.token = res.data.token;
+//                    window.location = "/";
+//                }
+//            }, function() {
+//                $rootScope.error = 'Failed to signin';
+//            })
         };
 
         $scope.signup = function() {
